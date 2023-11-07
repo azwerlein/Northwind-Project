@@ -1,0 +1,26 @@
+@model IEnumerable<Discount>
+<div class="jumbotron my-2 border border-secondary">
+    <h1 class="display-4">Northwind</h1>
+    <p class="lead">We have the best prices and selection of high quality foods &amp; beverages on the planet! Check out our featured discounts below.</p>
+    <hr class="my-4">
+    <p>For exceptional international quisuine, look no further.</p>
+    <a class="btn btn-outline-primary btn-lg" href="#" role="button">Order Now</a>
+</div>
+
+<div class="row row-cols-1 row-cols-lg-3">
+    @foreach (Discount d in Model)
+    {
+        <div class="col discounts px-2 py-4">
+            <h3>@d.Title</h3>
+            <div class="mb-4">
+                @d.Description
+            </div>
+            <i>Discount expires: @d.EndTime.ToString("MM/dd/yyyy")</i><br />
+            <a href="#" class="code" data-code="@d.Code" data-product="@d.Title"><i class="far fa-hand-point-right"></i> Discount Code</a>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/client.js"></script>
+}
