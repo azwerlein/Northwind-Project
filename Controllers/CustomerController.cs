@@ -79,4 +79,7 @@ public class CustomerController : Controller
             ModelState.AddModelError("", error.Description);
         }
     }
+    
+    // This view is just for testing the customer API endpoint
+    public IActionResult List(int id) => View(id);
 }

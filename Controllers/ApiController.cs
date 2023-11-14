@@ -30,4 +30,10 @@ public class APIController : Controller
     [HttpGet, Route("category/{categoryId:int}/product/discontinued/{discontinued}")]
     // returns all products in a specific category where discontinued = true/false
     public IEnumerable<Product> GetByCategoryDiscontinued(int categoryId, bool discontinued) => _dataContext.Products.Where(p => p.CategoryId == categoryId && p.Discontinued == discontinued).OrderBy(p => p.ProductName);
+
+    [HttpGet, Route("customer")]
+    public IEnumerable<Customer> GetCustomer() => _dataContext.Customers.OrderBy(c => c.CompanyName);
+
+    [HttpGet, Route("customer/{id:int}")]
+    public Customer GetCustomer(int id) => _dataContext.Customers.FirstOrDefault(c => c.CustomerId == id);
 }
