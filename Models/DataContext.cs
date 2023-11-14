@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Northwind.Models;
 
 public class DataContext : DbContext
 {
@@ -8,6 +9,8 @@ public class DataContext : DbContext
   public DbSet<Category> Categories { get; set; }
   public DbSet<Discount> Discounts { get; set; }
   public DbSet<Customer> Customers { get; set; }
+  
+  public DbSet<Review> Reviews { get; set; }
 
   public void AddCustomer(Customer customer)
   {
@@ -25,5 +28,11 @@ public class DataContext : DbContext
     customerToUpdate.Phone = customer.Phone;
     customerToUpdate.Fax = customer.Fax;
     SaveChanges();
+  }
+  
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    modelBuilder.Entity<Review>()
+      .HasKey(instance => new { instance.ProductID, instance.CustomerID });
   }
 }
