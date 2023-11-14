@@ -12,4 +12,7 @@ public class ProductController : Controller
         ViewBag.id = id;
         return View(_dataContext.Categories.OrderBy(c => c.CategoryName));
     }
+
+    public IActionResult Reviews(int id) => View(id);
+
 }
