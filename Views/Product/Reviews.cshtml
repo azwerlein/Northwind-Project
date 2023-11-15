@@ -1,3 +1,35 @@
-@model int;
+@* @model int;
 
-<p>@Model</p>
+<p>@Model</p> *@
+
+@model ReviewViewingModel
+
+<div class="bg-primary m-1 p-1 text-white"><h4>@Model.product.ProductName Details</h4></div>
+
+@if (Model.Reviews.Count() == 0)
+{
+  <p>There are no reviews</p>
+}
+else
+{
+  <ul>
+    @foreach (Review review in Model.Reviews)
+    {
+      <li>
+          @review.Rating - @review.ReviewText
+          
+          @if (User?.Identity?.IsAuthenticated ?? true)
+          {
+            if (User.IsInRole("blogs-moderate"))
+            {
+                <span> | </span><a asp-action="DeletePost" asp-route-id="@review.ProductID">Delete</a>
+            }
+          }
+      </li>
+    }
+  </ul>
+}
+
+<hr />
+<a asp-action="Index">Home</a> | 
+<a asp-action="AddReview" asp-route-id="@Model.product.ProductId">New Review</a>
