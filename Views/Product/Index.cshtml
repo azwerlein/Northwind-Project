@@ -35,8 +35,9 @@
 @section Scripts
 {
   <script>
+  
   $(function () {
-    getProducts()
+    getProducts();
     function getProducts() {
       var discontinued = $('#Discontinued').prop('checked') ? "" : "/discontinued/false";
       $.getJSON({
