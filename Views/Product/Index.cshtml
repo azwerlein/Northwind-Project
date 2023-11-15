@@ -41,13 +41,13 @@
     function getProducts() {
       var discontinued = $('#Discontinued').prop('checked') ? "/true" : "/false";
       $.getJSON({
-        url: `/api/category/${$('#product_rows').data('id')}/product` + discontinued,
+        url: `/api/category/${$('#product_rows').data('id')}/products` + discontinued,
         success: function (response, textStatus, jqXhr) {
           $('#product_rows').html("");
             for (var i = 0; i < response.length; i++){
               var css = response[i].discontinued ? " class='discontinued'" : "";
               var row = `<tr${css}>
-                <td>${response[i].productName}</td>
+                <td><a href="/Product/Reviews/${response[i].productId}">${response[i].productName}</a></td>
                 <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
                 <td class="text-right">${response[i].unitsInStock}</td>
               </tr>`;
