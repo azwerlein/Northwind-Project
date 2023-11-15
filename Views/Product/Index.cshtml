@@ -35,13 +35,13 @@
 @section Scripts
 {
   <script>
-  
+ 
   $(function () {
     getProducts();
     function getProducts() {
-      var discontinued = $('#Discontinued').prop('checked') ? "" : "/discontinued/false";
+      var discontinued = $('#Discontinued').prop('checked') ? "/true" : "/false";
       $.getJSON({
-        url: `../../api/category/${$('#product_rows').data('id')}/product` + discontinued,
+        url: `/api/category/${$('#product_rows').data('id')}/product` + discontinued,
         success: function (response, textStatus, jqXhr) {
           $('#product_rows').html("");
             for (var i = 0; i < response.length; i++){

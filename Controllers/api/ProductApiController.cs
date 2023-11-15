@@ -13,7 +13,7 @@ public class ProductApiController : Controller
     // returns all products (question-mark after url parameter means it's optional)
     [HttpGet, Route("{discontinued:bool?}")]
     public IEnumerable<Product> Get(bool discontinued = false) => _dataContext.Products
-        .Where(p => p.Discontinued == discontinued)
+        .Where(p => !p.Discontinued || p.Discontinued == discontinued)
         .OrderBy(p => p.ProductName);
     
     // return a specific product

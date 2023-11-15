@@ -22,6 +22,6 @@ public class CategoryApiController : Controller
     // returns all products within a category (question-mark after url parameter means it's optional)
     [HttpGet, Route("{id:int}/product/{discontinued:bool?}")]
     public IEnumerable<Product> GetProducts(int id, bool discontinued = false) => _dataContext.Products
-        .Where(p => p.Discontinued == discontinued)
+        .Where(p => !p.Discontinued || p.Discontinued == discontinued)
         .Where(p => p.CategoryId == id);
 }
