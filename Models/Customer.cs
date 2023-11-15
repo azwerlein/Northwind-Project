@@ -1,4 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+
+namespace Northwind.Models;
+
 public class Customer
 {
     public int CustomerId { get; set; }

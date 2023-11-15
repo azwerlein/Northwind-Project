@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
+using Northwind.Models;
 
 namespace Northwind.Controllers;
 
 [Route("api")]
-public class APIController : Controller
+public class ApiController : Controller
 {
     // this controller depends on the NorthwindRepository
     private DataContext _dataContext;
-    public APIController(DataContext db) => _dataContext = db;
+    public ApiController(DataContext db) => _dataContext = db;
 
     [HttpGet, Route("product")]
     // returns all products
