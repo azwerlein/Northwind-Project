@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Models;
@@ -37,15 +38,16 @@ public class ProductApiController : Controller
     [Authorize]
     public IActionResult PostReview(int id, Review review)
     {
-        return StatusCode(501); //Not Supported
-
         review.ProductID = id;
-        // review.CustomerID = {{Logged In User ID}}
-        // TODO: Find a way to get the current logged in user as an object.
+        review.CustomerID = _dataContext.Customers.FirstOrDefault(
+            c => c.Email == User.Identity.Name)?.CustomerId ?? -1;
+        //Invalid customer id, will error when we check model state.
 
-        if (!ModelState.IsValid) return StatusCode(400); //Bad Request
+        if (!ModelState.IsValid) 
+            return StatusCode(400); //Bad Request
 
         _dataContext.Reviews.Add(review);
+        
         return StatusCode(200); //OK
     }
 }
