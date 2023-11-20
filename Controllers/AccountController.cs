@@ -1,11 +1,14 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Northwind.Models;
+
+namespace Northwind.Controllers;
 
 public class AccountController : Controller
 {
-    private UserManager<AppUser> _userManager;
-    private SignInManager<AppUser> _signInManager;
+    private readonly UserManager<AppUser> _userManager;
+    private readonly SignInManager<AppUser> _signInManager;
 
     public AccountController(UserManager<AppUser> userMgr, SignInManager<AppUser> signInMgr)
     {

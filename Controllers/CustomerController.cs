@@ -1,6 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Northwind.Models;
+
+namespace Northwind.Controllers;
 
 public class CustomerController : Controller
 {
@@ -81,5 +84,9 @@ public class CustomerController : Controller
     }
     
     // This view is just for testing the customer API endpoint
-    public IActionResult List(int id) => View(id);
+    [HttpGet, Route("customer")]
+    public IEnumerable<Customer> List() => _dataContext.Customers.OrderBy(c => c.CompanyName);
+
+    [HttpGet, Route("customer/{id:int}")]
+    public Customer GetCustomer(int id) => _dataContext.Customers.FirstOrDefault(c => c.CustomerId == id);
 }

@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
+namespace Northwind.Models;
+
 public class Product
 {
     public int ProductId { get; set; }
@@ -13,4 +15,5 @@ public class Product
     public bool Discontinued { get; set; }
     public int CategoryId { get; set; }
     public Category Category { get; set; }
+    public ICollection<Review> Reviews { get; set; }
 }

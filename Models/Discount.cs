@@ -1,4 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Northwind.Models;
+
 public class Discount
 {
   public int DiscountId { get; set; }

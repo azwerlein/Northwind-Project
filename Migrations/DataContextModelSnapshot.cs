@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Northwind.Models;
 
 #nullable disable
 
@@ -21,7 +22,7 @@ namespace Northwind.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Category", b =>
+            modelBuilder.Entity("Northwind.Models.Category", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
@@ -40,7 +41,7 @@ namespace Northwind.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Customer", b =>
+            modelBuilder.Entity("Northwind.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
@@ -82,7 +83,7 @@ namespace Northwind.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Discount", b =>
+            modelBuilder.Entity("Northwind.Models.Discount", b =>
                 {
                     b.Property<int>("DiscountId")
                         .ValueGeneratedOnAdd()
@@ -118,29 +119,7 @@ namespace Northwind.Migrations
                     b.ToTable("Discounts");
                 });
 
-            modelBuilder.Entity("Northwind.Models.Review", b =>
-                {
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ReviewText")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ProductID", "CustomerID");
-
-                    b.HasIndex("CustomerID");
-
-                    b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("Product", b =>
+            modelBuilder.Entity("Northwind.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -179,9 +158,31 @@ namespace Northwind.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Discount", b =>
+            modelBuilder.Entity("Northwind.Models.Review", b =>
                 {
-                    b.HasOne("Product", "Product")
+                    b.Property<int>("ProductID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CustomerID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReviewText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductID", "CustomerID");
+
+                    b.HasIndex("CustomerID");
+
+                    b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("Northwind.Models.Discount", b =>
+                {
+                    b.HasOne("Northwind.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -190,16 +191,27 @@ namespace Northwind.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Northwind.Models.Product", b =>
+                {
+                    b.HasOne("Northwind.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("Northwind.Models.Review", b =>
                 {
-                    b.HasOne("Customer", "Customer")
+                    b.HasOne("Northwind.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Product", "Product")
-                        .WithMany()
+                    b.HasOne("Northwind.Models.Product", "Product")
+                        .WithMany("Reviews")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -209,20 +221,14 @@ namespace Northwind.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Product", b =>
-                {
-                    b.HasOne("Category", "Category")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Category", b =>
+            modelBuilder.Entity("Northwind.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Northwind.Models.Product", b =>
+                {
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

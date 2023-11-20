@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Northwind.Models;
 
 // Connection info stored in appsettings.json
 IConfiguration configuration = new ConfigurationBuilder()
