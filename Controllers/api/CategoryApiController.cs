@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Northwind.Models;
 
 namespace Northwind.Controllers.api;
@@ -12,6 +13,7 @@ public class CategoryApiController : Controller
     // returns all categories
     [HttpGet, Route("")]
     public IEnumerable<Category> Get() => _dataContext.Categories
+        .Include(c => c.Products)
         .OrderBy(c => c.CategoryName);
     
     // returns a specific category
@@ -20,7 +22,7 @@ public class CategoryApiController : Controller
         .FirstOrDefault(c => c.CategoryId == id);
     
     // returns all products within a category (question-mark after url parameter means it's optional)
-    [HttpGet, Route("{id:int}/product/{discontinued:bool?}")]
+    [HttpGet, Route("{id:int}/products/{discontinued:bool?}")]
     public IEnumerable<Product> GetProducts(int id, bool discontinued = false) => _dataContext.Products
         .Where(p => p.Discontinued == discontinued)
         .Where(p => p.CategoryId == id);

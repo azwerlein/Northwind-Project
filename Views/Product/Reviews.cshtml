@@ -1,12 +1,9 @@
-@* @model int;
+@using Northwind.Models
+@model Product
 
-<p>@Model</p> *@
+<div class="bg-primary m-1 p-1 text-white"><h4>Product Details</h4></div>
 
-@model ReviewViewingModel
-
-<div class="bg-primary m-1 p-1 text-white"><h4>@Model.product.ProductName Details</h4></div>
-
-@if (Model.Reviews.Count() == 0)
+@if (!Model.Reviews.Any())
 {
   <p>There are no reviews</p>
 }
@@ -22,7 +19,7 @@ else
           {
             if (User.IsInRole("blogs-moderate"))
             {
-                <span> | </span><a asp-action="DeletePost" asp-route-id="@review.ProductID">Delete</a>
+                <span> | </span><a asp-action="Delete" asp-route-id="@review.ProductID">Delete</a>
             }
           }
       </li>
@@ -32,4 +29,4 @@ else
 
 <hr />
 <a asp-action="Index">Home</a> | 
-<a asp-action="AddReview" asp-route-id="@Model.product.ProductId">New Review</a>
+<a asp-action="AddReview" asp-route-id="@Model.ProductId">New Review</a>
