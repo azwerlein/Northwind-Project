@@ -13,9 +13,10 @@ $(function () {
                     var css = response[i].discontinued ? " class='discontinued'" : "";
                     var row = `<tr${css} data-id="${response[i].productId}" data-name="${response[i].productName}" data-price="${response[i].unitPrice}">
                     
-                <td><a href="/Product/Reviews/${response[i].productId}">${response[i].productName}</a></td>
-                <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
-                <td class="text-right">${response[i].unitsInStock}</td>
+                    <td>${response[i].productName}</td>
+                    <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
+                    <td class="text-right">${response[i].unitsInStock}</td>
+                    <td><a class="btn bg-primary text-white" href="/Product/Reviews/${response[i].productId}" role="button">Add Review</a></td>
               </tr>`;
                     $('#product_rows').append(row);
                 }
