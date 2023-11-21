@@ -1,0 +1,14 @@
+@model int
+
+<div class="bg-primary m-1 p-1 text-white"><h4>Add Review</h4></div>
+<form method="post" asp-action="AddReview">
+  <div asp-validation-summary="All"></div>
+  @* <label asp-for="@Model.Rating">Enter Rating</label>
+  <input asp-for="@Model.Rating" placeholder="Product Rating" /><br />
+  <label asp-for="@Model.ReviewText">Enter Review</label>
+  <textarea asp-for="@Model.ReviewText" placeholder="Enter review here..."></textarea><br /> *@
+  <button type="submit">Create Review</button>
+</form>
+
+<hr />
+<a asp-action="Index">Home</a> | <a asp-action="Reviews" asp-route-id="@Model">Reviews</a>
