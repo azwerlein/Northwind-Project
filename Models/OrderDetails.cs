@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Northwind.Models;
 
-public class OrderDetail
+namespace Northwind.Models;
+
+public class OrderDetails
 {
     [Required]
     public int OrderDetailsId { get; set; }
+    [Required]
     public int OrderId { get; set; }
+    [Required]
     public int ProductId { get; set; }
     [Column(TypeName="money")]
     public decimal UnitPrice { get; set; }

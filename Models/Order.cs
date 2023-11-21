@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Northwind.Models;
+
+namespace Northwind.Models;
 
 public class Order
 {
     public Order()
     {
-        OrderDetails = new HashSet<OrderDetail>();
+        OrderDetails = new HashSet<OrderDetails>();
     }
 
     [Required]
@@ -35,5 +36,5 @@ public class Order
     [StringLength(15)]
     public string ShipCountry { get; set; }
 
-    public ICollection<OrderDetail> OrderDetails { get; set; }
+    public ICollection<OrderDetails> OrderDetails { get; set; }
 }

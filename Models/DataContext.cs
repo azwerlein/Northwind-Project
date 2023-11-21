@@ -11,7 +11,7 @@ public class DataContext : DbContext
   public DbSet<Discount> Discounts { get; set; }
   public DbSet<Customer> Customers { get; set; }
   public DbSet<Order> Orders { get; set; }
-  public DbSet<OrderDetail> OrderDetails { get; set; }
+  public DbSet<OrderDetails> OrderDetails { get; set; }
 
   public DbSet<Review> Reviews { get; set; }
 
@@ -37,7 +37,7 @@ public class DataContext : DbContext
   {
     modelBuilder.Entity<Review>()
       .HasKey(instance => new { instance.ProductID, instance.CustomerID });
-    modelBuilder.Entity<OrderDetail>()
+    modelBuilder.Entity<OrderDetails>()
       .HasKey(e => e.OrderDetailsId);
   }
 }

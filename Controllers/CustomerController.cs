@@ -83,10 +83,10 @@ public class CustomerController : Controller
         }
     }
     
+    public IActionResult List(int id) => View(id);
     // This view is just for testing the customer API endpoint
-    [HttpGet, Route("customer")]
-    public IEnumerable<Customer> List() => _dataContext.Customers.OrderBy(c => c.CompanyName);
-
-    [HttpGet, Route("customer/{id:int}")]
-    public Customer GetCustomer(int id) => _dataContext.Customers.FirstOrDefault(c => c.CustomerId == id);
+    public IActionResult Test(int id) {
+        ViewBag.id = id;
+        return View(_dataContext.Orders.Where(o => o.CustomerId == 1));
+    }
 }
