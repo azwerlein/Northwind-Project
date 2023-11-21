@@ -18,6 +18,9 @@ public class ProductController : Controller
     }
 
     public IActionResult Reviews(int id) => View(_dataContext.Products
-            .Include(product => product.Reviews)
-            .FirstOrDefault(p => p.ProductId == id));
+        .Include(p => p.Reviews)
+        .FirstOrDefault(p => p.ProductId == id));
+
+        public IActionResult AddReview(int id) => View(id);
+
 }
