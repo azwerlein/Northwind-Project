@@ -59,15 +59,20 @@ $(function () {
 
     $('#addToCart').on('click', function(){
         $('#cartModal').modal('hide');
+        
+        let requestBody = JSON.stringify({
+            "ID": Number($('#ProductId').html()),
+            "Email": $('#User').data('email'),
+            "Qty": Number($('#Quantity').val())
+        });
+        
+        console.log(requestBody);
+        
         $.ajax({
             headers: { "Content-Type": "application/json" },
             url: "/api/shop/addtocart",
             type: 'post',
-            data: JSON.stringify({
-                "id": Number($('#ProductId').html()),
-                "email": $('#User').data('email'),
-                "qty": Number($('#Quantity').val())
-            }),
+            data: requestBody,
             success: function (response, textStatus, jqXhr) {
                 // success
                 toast("Product Added", `${response.product.productName} successfully added to cart.`);
