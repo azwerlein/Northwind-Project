@@ -27,5 +27,5 @@ else
 }
 
 <hr />
-<a asp-action="Index">Home</a> | 
+<a asp-action="Index" asp-route-id="@Model.CategoryId">Home</a> | 
 <a asp-action="AddReview" asp-route-id="@Model.ProductId">New Review</a>

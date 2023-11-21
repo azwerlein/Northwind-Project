@@ -31,9 +31,11 @@ $(function () {
         $('#product_rows').data('id', $(this).val());
         getProducts();
     });
+    
     $('#Discontinued').on('change', function () {
         getProducts();
     });
+    
     $('#product_rows').on('click', 'tr', function () {
         // make sure a customer is logged in
         if ($('#User').data('customer').toLowerCase() === "true"){

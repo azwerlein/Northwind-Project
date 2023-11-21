@@ -1,4 +1,4 @@
-@model int
+@model Northwind.Models.Product
 
 <div class="bg-primary m-1 p-1 text-white"><h4>Add Review</h4></div>
 <form method="post" asp-action="AddReview">
@@ -11,4 +11,4 @@
 </form>
 
 <hr />
-<a asp-action="Index">Home</a> | <a asp-action="Reviews" asp-route-id="@Model">Reviews</a>
+<a asp-action="Index" asp-route-id="@Model.CategoryId">Home</a> | <a asp-action="Reviews" asp-route-id="@Model.ProductId">Reviews</a>
