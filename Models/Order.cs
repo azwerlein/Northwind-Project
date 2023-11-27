@@ -13,8 +13,8 @@ public class Order
 
     [Required]
     public int OrderId { get; set; }
+    [Required]
     public int CustomerId { get; set; }
-    public Customer Customer { get; set; }
     public int EmployeeId { get; set; }
     public DateTime OrderDate { get; set; }
     public DateTime RequiredDate { get; set; }
@@ -36,5 +36,6 @@ public class Order
     [StringLength(15)]
     public string ShipCountry { get; set; }
 
+    public Customer Customer { get; set; }
     public ICollection<OrderDetails> OrderDetails { get; set; }
 }

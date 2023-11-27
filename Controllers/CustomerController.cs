@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Northwind.Models;
 
 namespace Northwind.Controllers;
@@ -87,6 +89,8 @@ public class CustomerController : Controller
     // This view is just for testing the customer API endpoint
     public IActionResult Test(int id) {
         ViewBag.id = id;
-        return View(_dataContext.Orders.Where(o => o.CustomerId == 1));
+        return View(_dataContext.Orders
+        .Include(o => o.Customer)
+        .Where(o => o.Customer.Email == User.Identity.Name));
     }
 }
