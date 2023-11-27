@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Northwind.Models;
 
 namespace Northwind.Controllers.api;
@@ -12,6 +13,7 @@ public class CategoryApiController : Controller
     // returns all categories
     [HttpGet, Route("")]
     public IEnumerable<Category> Get() => _dataContext.Categories
+        .Include(c => c.Products)
         .OrderBy(c => c.CategoryName);
     
     // returns a specific category

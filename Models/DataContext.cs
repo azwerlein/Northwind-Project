@@ -4,7 +4,9 @@ namespace Northwind.Models;
 
 public class DataContext : DbContext
 {
-  public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+    public DataContext(DbContextOptions<DataContext> options) : base(options)
+    {
+    }
 
   public DbSet<Product> Products { get; set; }
   public DbSet<Category> Categories { get; set; }
@@ -14,6 +16,8 @@ public class DataContext : DbContext
   public DbSet<OrderDetails> OrderDetails { get; set; }
 
   public DbSet<Review> Reviews { get; set; }
+
+  public DbSet<CartItem> CartItems { get; set; }
 
   public void AddCustomer(Customer customer)
   {
@@ -32,6 +36,34 @@ public class DataContext : DbContext
     customerToUpdate.Fax = customer.Fax;
     SaveChanges();
   }
+
+  public CartItem AddToCart(CartItemJSON cartItemJSON)
+    {
+        int CustomerId = Customers.FirstOrDefault(c => c.Email == cartItemJSON.Email)?.CustomerId ?? -1;
+        int ProductId = cartItemJSON.ID;
+        // check for duplicate cart item
+        CartItem cartItem = CartItems.FirstOrDefault(ci => ci.ProductId == ProductId && ci.CustomerId == CustomerId);
+        if (cartItem == null)
+        {
+            // this is a new cart item
+            cartItem = new CartItem()
+            {
+                CustomerId = CustomerId,
+                ProductId = cartItemJSON.ID,
+                Quantity = cartItemJSON.Qty
+            };
+            CartItems.Add(cartItem);
+        }
+        else
+        {
+            // for duplicate cart item, simply update the quantity
+            cartItem.Quantity += cartItemJSON.Qty;
+        }
+
+        SaveChanges();
+        cartItem.Product = Products.Find(cartItem.ProductId);
+        return cartItem;
+    }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
