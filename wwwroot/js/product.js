@@ -1,6 +1,37 @@
 $(function () {
     getProducts();
 
+    function getAggregateRating(reviews){
+        let aveRating = 0;
+        let aveRatingString = "";
+        let myMod = false;
+
+        if(reviews.length === 0){
+            return "";
+        }else{
+            for(var i = 0; i<reviews.length; i++){
+                aveRating = aveRating + reviews[i].rating;
+            }
+            aveRating = aveRating/reviews.length;
+
+            for(var i = 1; i <= aveRating; i++){
+                aveRatingString += `<i class="bi bi-star-fill" style="color:  gold"></i>`
+            }
+
+            if(aveRating %1 !== 0){
+                aveRatingString += `<i class="bi bi-star-half" style="color:  gold"></i>`
+            }
+
+            for(var i = 1; i <= (5-aveRating); i++){
+                aveRatingString += `<i class="bi bi-star" style="color:  gold"></i>`
+            }
+
+            return aveRatingString;
+        }
+
+        
+    }
+
     function getProducts() {
 
         var discontinued = $('#Discontinued').prop('checked') ? "/true" : "/false";
@@ -10,10 +41,12 @@ $(function () {
             success: function (response, textStatus, jqXhr) {
                 $('#product_rows').html("");
                 for (var i = 0; i < response.length; i++) {
+                    console.log(response[i]);
+                    let aggregate = getAggregateRating(response[i].reviews);
                     var css = response[i].discontinued ? " class='discontinued'" : "";
                     var row = `<tr${css} data-id="${response[i].productId}" data-name="${response[i].productName}" data-price="${response[i].unitPrice}">
                     
-                    <td>${response[i].productName}</td>
+                    <td>${response[i].productName}     ${aggregate}</td>
                     <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
                     <td class="text-right">${response[i].unitsInStock}</td>
                     <td class="text-right"><a href="/Product/Reviews/${response[i].productId}" role="button">See Reviews</a></td>
