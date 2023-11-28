@@ -12,7 +12,16 @@ else
     @foreach (var review in Model.Reviews)
     {
       <li>
-          @review.Rating - @review.ReviewText
+          @for(int i=0;i< review.Rating; i++)
+          {
+            <i class="bi bi-star-fill" style="color:  gold"></i>
+          }
+
+          @for(int i=0; i<(5 - review.Rating); i++) 
+          {
+            <i class="bi bi-star" style="color:  gold"></i>
+          }
+           - @review.ReviewText
           
           @if (User?.Identity?.IsAuthenticated ?? true)
           {
