@@ -32,7 +32,7 @@ public class CustomerApiController : Controller
         .Where(o => o.CustomerId == id);
     
     [HttpGet, Route("{id:int}/orderdetails")]
-    public IEnumerable<OrderDetails> GetOrderDetails(int id) => _dataContext.OrderDetails
+    public IEnumerable<OrderDetail> GetOrderDetails(int id) => _dataContext.OrderDetails
         .Where(d => d.OrderId == id)
         .Include(d => d.Product);
 }
