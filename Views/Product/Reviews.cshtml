@@ -27,7 +27,7 @@ else
           {
             if (User.IsInRole("admin"))
             {
-                <span> | </span><a asp-action="error" asp-route-id="@review.ProductId">Delete</a>
+                <span> | </span><a asp-action="DeleteReview" asp-route-pid="@review.ProductId" asp-route-cid="@review.CustomerId">Delete</a>
             }
           }
       </li>
@@ -39,7 +39,7 @@ else
 <a asp-action="Index" asp-route-id="@Model.CategoryId">Home</a> 
 @if(User?.Identity?.IsAuthenticated ?? true)
 {
-  @* this needs to change so is not 'admin' but is 'customer who has purchased this' *@
+  @* TODO: this needs to change so is not 'admin' but is 'customer who has purchased this' *@
   if (User.IsInRole("admin"))
   {
     <a asp-action="AddReview" asp-route-id="@Model.ProductId"> | Add Review</a>

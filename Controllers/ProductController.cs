@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Models;
@@ -23,4 +24,25 @@ public class ProductController : Controller
 
     public IActionResult AddReview(int id) => View(_dataContext.Products
         .FirstOrDefault(p => p.ProductId == id));
+
+    [Authorize(Roles = "admin")]
+    public IActionResult DeleteReview(int pid, int cid)
+    {
+        var review = _dataContext.Reviews.FirstOrDefault(r => r.ProductId == pid &&
+                                                              r.CustomerId == cid);
+
+        if (review is null)
+            return StatusCode(422);
+
+        try
+        {
+            _dataContext.Reviews.Remove(review);
+            _dataContext.SaveChanges();
+        }
+        catch (DbUpdateException e)
+        {
+            return StatusCode(500);
+        }
+        return RedirectToAction("Reviews", new { id = pid });
+    }
 }
