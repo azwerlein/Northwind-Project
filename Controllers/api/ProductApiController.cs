@@ -30,7 +30,7 @@ public class ProductApiController : Controller
     // return a specific product's reviews
     [HttpGet, Route("{id:int}/reviews")]
     public IEnumerable<Review> GetReviews(int id) => _dataContext.Reviews
-        .Where(r => r.ProductID == id);
+        .Where(r => r.ProductId == id);
 
     // add a review
     [HttpPost, Route("{id:int}/reviews")]
@@ -38,8 +38,11 @@ public class ProductApiController : Controller
     [Authorize]
     public IActionResult PostReview(int id, Review review)
     {
-        review.ProductID = id;
-        review.CustomerID = _dataContext.Customers.FirstOrDefault(
+        Console.WriteLine("TEST");
+        Console.WriteLine($"id: {id}, review: {review}");
+        
+        review.ProductId = id;
+        review.CustomerId = _dataContext.Customers.FirstOrDefault(
             c => c.Email == User.Identity.Name)?.CustomerId ?? -1;
         //Invalid customer id, will error when we check model state.
 

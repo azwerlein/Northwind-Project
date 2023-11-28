@@ -1,20 +1,16 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Northwind.Models;
-
-public class Review
+namespace Northwind.Models
 {
-    [Required]
-    public int CustomerID { get; set; }
-    public Customer Customer { get; set; }
-    
-    [Required]
-    public int ProductID { get; set; }
-    public Product Product { get; set; }
-    
-    [Required]
-    public int Rating { get; set; }
-    
-    [Required]
-    public string ReviewText { get; set; }
+    public partial class Review
+    {
+        public int CustomerId { get; set; }
+        public int ProductId { get; set; }
+        public int Rating { get; set; }
+        public string ReviewText { get; set; }
+
+        public virtual Customer Customer { get; set; }
+        public virtual Product Product { get; set; }
+    }
 }
