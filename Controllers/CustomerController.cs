@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -84,13 +83,14 @@ public class CustomerController : Controller
             ModelState.AddModelError("", error.Description);
         }
     }
-    
-    public IActionResult List(int id) => View(id);
-    // This view is just for testing the customer API endpoint
-    public IActionResult Test(int id) {
-        ViewBag.id = id;
-        return View(_dataContext.Orders
-        .Include(o => o.Customer)
-        .Where(o => o.Customer.Email == User.Identity.Name));
+
+    public IActionResult Orders() {
+        // IEnumerable<Order> orders = _dataContext.Orders
+        // .Include(o => o.Customer)
+        // .Where(o => o.Customer.Email == User.Identity.Name)
+        // .OrderBy(o => o.OrderId);
+        ViewBag.id = 0;
+        Console.WriteLine(_dataContext.Orders);
+        return View(_dataContext.Orders);
     }
 }
