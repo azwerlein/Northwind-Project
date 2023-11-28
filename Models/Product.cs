@@ -1,20 +1,34 @@
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
-namespace Northwind.Models;
-
-public class Product
+namespace Northwind.Models
 {
-    public int ProductId { get; set; }
-    public string ProductName { get; set; }
-    public string QuantityPerUnit { get; set; }
-    [Column(TypeName = "decimal(18,4)")]
-    public decimal UnitPrice { get; set; }
-    public short UnitsInStock { get; set; }
-    public short UnitsOnOrder { get; set; }
-    public short ReorderLevel { get; set; }
-    public bool Discontinued { get; set; }
-    public int CategoryId { get; set; }
-    public Category Category { get; set; }
-    
-    public ICollection<Review> Reviews { get; set; }
+    public partial class Product
+    {
+        public Product()
+        {
+            CartItems = new HashSet<CartItem>();
+            Discounts = new HashSet<Discount>();
+            OrderDetails = new HashSet<OrderDetail>();
+            Reviews = new HashSet<Review>();
+        }
+
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public int? SupplierId { get; set; }
+        public int? CategoryId { get; set; }
+        public string QuantityPerUnit { get; set; }
+        public decimal? UnitPrice { get; set; }
+        public short? UnitsInStock { get; set; }
+        public short? UnitsOnOrder { get; set; }
+        public short? ReorderLevel { get; set; }
+        public bool Discontinued { get; set; }
+
+        public virtual Category Category { get; set; }
+        public virtual Supplier Supplier { get; set; }
+        public virtual ICollection<CartItem> CartItems { get; set; }
+        public virtual ICollection<Discount> Discounts { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
+    }
 }
