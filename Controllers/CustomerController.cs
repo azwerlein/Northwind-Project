@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Northwind.Models;
 
 namespace Northwind.Controllers;
@@ -81,5 +82,13 @@ public class CustomerController : Controller
         {
             ModelState.AddModelError("", error.Description);
         }
+    }
+    public IActionResult Orders(int? id) {
+        IEnumerable<Order> orders = _dataContext.Orders
+        .Include(o => o.Customer)
+        .Where(o => o.Customer.Email == User.Identity.Name)
+        .OrderBy(o => o.OrderId);
+        ViewBag.id = id ?? orders.First()?.OrderId;
+        return View(_dataContext.Orders);
     }
 }

@@ -1,0 +1,64 @@
+@using Northwind.Models
+@model IEnumerable<Order>
+
+<h1>My orders</h1>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">
+                <div class="form-row">
+                    <div class="form-group col-md-8 mb-0">
+                        <select class="form-control form-control-sm" id="orderId">
+                            @foreach (Order o in Model)
+                            {
+                                if (o.OrderId == ViewBag.id)
+                                {
+                                    <option value="@o.OrderId" selected>@o.OrderId</option>
+                                }
+                                else
+                                {
+                                    <option value="@o.OrderId">@o.OrderId</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </th>
+            <th scope="col" class="text-right">Price ($)</th>
+            <th scope="col" class="text-right">Discount ($)</th>
+        </tr>
+    </thead>
+    <tbody id="product_rows" data-id="@ViewBag.id"></tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(function () {
+            getOrderDetails();
+            function getOrderDetails() {
+                $.getJSON({
+                    url: `/api/customer/${$('#product_rows').data('id')}/orderdetails`, // Add options later
+                    success: function (response, textStatus, jqXhr) {
+                        $('#product_rows').html("");
+                        for (var i = 0; i < response.length; i++) {
+                            var row = `<tr>
+                                <td><a href="/Product/Reviews/${response[i].productId}">${response[i].product.productName}</a></td>
+                                <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
+                                <td class="text-right">${response[i].discount.toFixed(2)}</td>
+                              </tr>`;
+                            $('#product_rows').append(row);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        // log the error to the console
+                        console.log("The following error occured: " + textStatus, errorThrown);
+                    }
+                });
+            }
+            $('#orderId').on('change', function () {
+                $('#product_rows').data('id', $(this).val());
+                getOrderDetails();
+            });
+        });
+    </script>
+}
