@@ -1,6 +1,6 @@
 @model Northwind.Models.Product
 
-<div class="bg-primary m-1 p-1 text-white"><h4>@Model.ProductName Details</h4></div>
+<div class="bg-primary m-1 p-1 text-white"><h4>@Model.ProductName Reviews</h4></div>
 
 @if (!Model.Reviews.Any())
 {
@@ -27,5 +27,12 @@ else
 }
 
 <hr />
-<a asp-action="Index" asp-route-id="@Model.CategoryId">Home</a> | 
-<a asp-action="AddReview" asp-route-id="@Model.ProductId">New Review</a>
+<a asp-action="Index" asp-route-id="@Model.CategoryId">Home</a> 
+@if(User?.Identity?.IsAuthenticated ?? true)
+{
+  @* this needs to change so is not 'admin' but is 'customer who has purchased this' *@
+  if (User.IsInRole("admin"))
+  {
+    <a asp-action="AddReview" asp-route-id="@Model.ProductId"> | Add Review</a>
+  }
+}

@@ -16,7 +16,7 @@ $(function () {
                     <td>${response[i].productName}</td>
                     <td class="text-right">${response[i].unitPrice.toFixed(2)}</td>
                     <td class="text-right">${response[i].unitsInStock}</td>
-                    <td class="text-right"><a href="/Product/Reviews/${response[i].productId}" role="button">Add Review</a></td>
+                    <td class="text-right"><a href="/Product/Reviews/${response[i].productId}" role="button">See Reviews</a></td>
               </tr>`;
                     $('#product_rows').append(row);
                 }
