@@ -40,7 +40,7 @@ else
 @if(User?.Identity?.IsAuthenticated ?? true)
 {
   @* TODO: this needs to change so is not 'admin' but is 'customer who has purchased this' *@
-  if (User.IsInRole("admin"))
+  if (User.IsInRole("admin") || ViewBag.hasProduct)
   {
     <a asp-action="AddReview" asp-route-id="@Model.ProductId"> | Add Review</a>
   }

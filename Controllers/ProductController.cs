@@ -18,9 +18,17 @@ public class ProductController : Controller
         return View(_dataContext.Categories.OrderBy(c => c.CategoryName));
     }
 
-    public IActionResult Reviews(int id) => View(_dataContext.Products
+    public IActionResult Reviews(int id)
+    {
+        ViewBag.hasProduct = _dataContext.OrderDetails.Where(d => d.ProductId == id)
+        .Include(d => d.Order)
+        .Include(d => d.Order.Customer)
+        .Any(d => d.Order.Customer.Email == User.Identity.Name);
+        
+        return View(_dataContext.Products
         .Include(p => p.Reviews)
         .FirstOrDefault(p => p.ProductId == id));
+    }
 
     public IActionResult AddReview(int id) => View(_dataContext.Products
         .FirstOrDefault(p => p.ProductId == id));
