@@ -1,47 +1,55 @@
 @model Northwind.Models.Product
 
-<div class="bg-primary m-1 p-1 text-white"><h4>@Model.ProductName Reviews</h4></div>
-
 @if (!Model.Reviews.Any())
 {
-  <p>There are no reviews</p>
+    <p>There are no reviews</p>
 }
 else
 {
-  <ul>
-    @foreach (var review in Model.Reviews)
-    {
-      <li>
-          @for(int i=0;i< review.Rating; i++)
-          {
-            <i class="bi bi-star-fill" style="color:  gold"></i>
-          }
+    <ul class="list-group">
+        <li class="list-group-item bg-primary text-white">
+            <h2 class="mb-0">@Model.ProductName Reviews</h2>
+        </li>
 
-          @for(int i=0; i<(5 - review.Rating); i++) 
-          {
-            <i class="bi bi-star" style="color:  gold"></i>
-          }
-           - @review.ReviewText
-          
-          @if (User?.Identity?.IsAuthenticated ?? true)
-          {
-            if (User.IsInRole("admin"))
-            {
-                <span> | </span><a asp-action="DeleteReview" asp-route-pid="@review.ProductId" asp-route-cid="@review.CustomerId">Delete</a>
-            }
-          }
-      </li>
-    }
-  </ul>
+        @foreach (var review in Model.Reviews)
+        {
+            <li class="list-group-item">
+                <div class="pb-3">
+                    <h5>@review.Customer.CompanyName</h5>
+
+                    @for (int i = 0; i < review.Rating; i++)
+                    {
+                        <i class="bi bi-star-fill" style="color:  gold"></i>
+                    }
+
+                    @for (int i = 0; i < (5 - review.Rating); i++)
+                    {
+                        <i class="bi bi-star" style="color:  gold"></i>
+                    }
+                </div>
+
+                <p>
+                    @review.ReviewText
+                </p>
+
+                @if (User?.Identity?.IsAuthenticated ?? true)
+                {
+                    if (User.IsInRole("admin"))
+                    {
+                        <a class="btn btn-danger" asp-action="DeleteReview" asp-route-pid="@review.ProductId" asp-route-cid="@review.CustomerId">Delete</a>
+                    }
+                }
+            </li>
+        }
+    </ul>
 }
 
-<hr />
-<a asp-action="Index" asp-route-id="@Model.CategoryId">Home</a> 
-@if(User?.Identity?.IsAuthenticated ?? true)
+<hr/>
+<a asp-action="Index" asp-route-id="@Model.CategoryId">Home</a>
+@if (User?.Identity?.IsAuthenticated ?? true)
 {
-  @* TODO: this needs to change so is not 'admin' but is 'customer who has purchased this' *@
-  if (User.IsInRole("admin") || ViewBag.hasProduct)
-  {
-    <a asp-action="AddReview" asp-route-id="@Model.ProductId"> | Add Review</a>
-  }
+    if (User.IsInRole("admin") || ViewBag.hasProduct)
+    {
+        <a asp-action="AddReview" asp-route-id="@Model.ProductId"> | Add Review</a>
+    }
 }

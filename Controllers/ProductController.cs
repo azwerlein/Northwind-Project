@@ -27,6 +27,7 @@ public class ProductController : Controller
         
         return View(_dataContext.Products
         .Include(p => p.Reviews)
+        .ThenInclude(r => r.Customer)
         .FirstOrDefault(p => p.ProductId == id));
     }
 

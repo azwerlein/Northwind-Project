@@ -1,4 +1,21 @@
 $(function () {
+    let $stars = $('#rating');
+    
+    $stars.on('click', () => {
+        let highest = $stars.find('input:checked').val();
+        $stars.find('input').each((i, elem) => {
+            let $elem = $(elem);
+            let $labelIcon = $('label[for="' + $elem.attr('id') + '"]').children();
+            
+            if($elem.val() <= highest) {
+                $labelIcon.removeClass('bi-star');
+                $labelIcon.addClass('bi-star-fill');
+            } else {
+                $labelIcon.removeClass('bi-star-fill');
+                $labelIcon.addClass('bi-star');
+            }
+        })
+    })
 });
 
 function postReview() {

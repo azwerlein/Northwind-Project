@@ -22,9 +22,8 @@ public class CustomerApiController : Controller
     [Authorize]
     [HttpGet]
     public string Email() => User.Identity?.Name ?? "Missing Email";
-
-
-    [HttpGet, Route("{id:int}")]
+    
+        [HttpGet, Route("{id:int}")]
     public Customer GetCustomer(int id) => _dataContext.Customers.FirstOrDefault(c => c.CustomerId == id);
 
     [HttpGet, Route("{id:int}/orders")]
