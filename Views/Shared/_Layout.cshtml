@@ -68,7 +68,7 @@
             </div>
             @if (User?.Identity?.IsAuthenticated ?? false)
             {
-                <a class="signInOut mr-2" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+                <a class="signInOut mr-2" asp-controller="Account" asp-action="Logout"> ( @User.Identity.Name ) <i class="fas fa-sign-out-alt"></i> Sign Out</a>
             }
             else
             {
