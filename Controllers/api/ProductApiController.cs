@@ -35,12 +35,12 @@ public class ProductApiController : Controller
     // add a review
     [HttpPost, Route("{id:int}/reviews")]
     [Authorize]
-    [ValidateAntiForgeryToken] 
+    [ValidateAntiForgeryToken]
     public IActionResult PostReview(int id, [FromBody] Review review)
     {
         if (review is null)
             return StatusCode(422); // Unprocessable Content (Model is missing)
-        
+
         review.ProductId = id;
         review.CustomerId = _dataContext.Customers.FirstOrDefault(
             c => c.Email == User.Identity.Name)?.CustomerId ?? -1;
@@ -48,20 +48,26 @@ public class ProductApiController : Controller
 
         if (User.IsInRole("admin")) // If user is in role, manually assign user id to Admin uid.
             review.CustomerId = int.MinValue;
-        
-        Console.WriteLine($"pid: {id}, uid: {review.CustomerId}, review: {{{review.Rating} '{review.ReviewText}}}'");
 
-        if (!ModelState.IsValid) 
+        if (!_dataContext.OrderDetails
+                .Include(od => od.Order)
+                .Include(od => od.Order.Customer)
+                .Any(od => od.ProductId == id))
+            return StatusCode(401); // Unauthorized (You haven't purchased this item!)
+
+        if (!ModelState.IsValid)
             return StatusCode(422); // Unprocessable Content (Review Model is bad)
 
         if (_dataContext.Reviews.Any(r => r.CustomerId == review.CustomerId && r.ProductId == review.ProductId))
             return StatusCode(409); // Conflict (Resource already exists)
 
-        try {
+        try
+        {
             _dataContext.Reviews.Add(review);
             _dataContext.SaveChanges();
         }
-        catch (DbUpdateException e) {
+        catch (DbUpdateException e)
+        {
             return StatusCode(500);
         }
 
