@@ -89,6 +89,6 @@ public class CustomerController : Controller
         .Where(o => o.Customer.Email == User.Identity.Name)
         .OrderBy(o => o.OrderId);
         ViewBag.id = id ?? orders.First()?.OrderId;
-        return View(_dataContext.Orders);
+        return View(orders);
     }
 }

@@ -20,10 +20,12 @@ public class ProductController : Controller
 
     public IActionResult Reviews(int id)
     {
-        ViewBag.hasProduct = _dataContext.OrderDetails.Where(d => d.ProductId == id)
-        .Include(d => d.Order)
-        .Include(d => d.Order.Customer)
-        .Any(d => d.Order.Customer.Email == User.Identity.Name);
+        ViewBag.hasProduct = _dataContext.OrderDetails
+            .Include(od => od.Order)
+            .ThenInclude(o => o.Customer)
+            .Any(od =>
+                od.ProductId == id &&
+                od.Order.Customer.Email == User.Identity.Name);
         
         return View(_dataContext.Products
         .Include(p => p.Reviews)

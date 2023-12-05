@@ -1,7 +1,7 @@
 @using Northwind.Models
 @model IEnumerable<Order>
 
-<h1>My orders</h1>
+<h1>My Orders</h1>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -9,7 +9,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-8 mb-0">
                         <select class="form-control form-control-sm" id="orderId">
-                            @foreach (Order o in Model)
+                            @foreach (var o in Model)
                             {
                                 if (o.OrderId == ViewBag.id)
                                 {
